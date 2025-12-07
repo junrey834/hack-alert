@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warning: Hacked</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h1 {
+            color: red;
+            font-size: 60px;
+            font-weight: bold;
+            margin-top: 100px;
+            text-transform: uppercase;
+            animation: flash 1s infinite;
+            text-align: center;
+        }
+
+        @keyframes flash {
+            0% {
+                color: red;
+            }
+
+            50% {
+                color: yellow;
+            }
+
+            100% {
+                color: red;
+            }
+        }
+
+        .content {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            border: 2px solid red;
+            text-align: center;
+        }
+
+        .alert {
+            font-size: 30px;
+            color: red;
+            background-color: black;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid red;
+            animation: blink 1.5s infinite;
+        }
+
+        .message {
+            font-size: 22px;
+            color: yellow;
+            line-height: 1.6;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .scrolling-text {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: red;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: scrollText 10s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% {
+                left: 100%;
+            }
+
+            100% {
+                left: -100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Critical System Error!</h1>
+
+    <div class="content">
+        <div class="alert">Your data has been compromised! Hack detected! please click button to hacked your data</div>
+        <p class="message">
+            WARNING: Personal information is currently being accessed. Unauthorized access confirmed!
+            We are taking control of your device.
+        </p>
+        <button onclick="startPrank()">Hack Your Data</button>
+    </div>
+
+    <div class="scrolling-text">Warning! Your device is under attack! Data breach in progress! Please act fast!</div>
+
+    <script>
+        // Create audio objects for sound effects
+        var creepySound = new Audio('https://www.soundjay.com/creepy-sound.mp3');  // Creepy sound URL
+        creepySound.loop = true;  // Loop the creepy sound effect
+
+        function startPrank() {
+            // Play the creepy sound when the button is clicked
+            creepySound.play();
+
+            // Show the prank message and redirect after some time
+            setTimeout(function () {
+                alert("Just kidding! Your data is safe. It's all a prank.");
+                window.location.href = "https://www.google.com"; // Redirect to Google after prank message
+            }, 1500); // Delay before showing the alert
+        }
+    </script>
+</body>
+
+</html>
