@@ -2,156 +2,755 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warning: Hacked</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Warning: System Breach</title>
     <style>
+        :root {
+            --bg: #070707;
+            --red: #ff2d2d;
+            --yellow: #ffd24d;
+            --muted: #cfcfcf;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        html,
         body {
-            background-color: #111;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 0;
+            height: 100%;
             margin: 0;
-            overflow: hidden;
+            font-family: "Courier New", Courier, monospace;
+            background: linear-gradient(180deg, #050506 0%, #0b0b0b 100%);
+            color: #eee;
+            overflow: hidden
+        }
+
+        /* Landing */
+        .center {
             position: relative;
+            z-index: 30;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 18px;
+            padding: 24px;
+            box-sizing: border-box;
         }
 
         h1 {
-            color: red;
-            font-size: 60px;
-            font-weight: bold;
-            margin-top: 100px;
+            font-size: 48px;
+            color: var(--red);
+            margin: 0;
             text-transform: uppercase;
-            animation: flash 1s infinite;
-            text-align: center;
+            letter-spacing: 2px;
+            animation: flash 1s linear infinite
         }
 
         @keyframes flash {
             0% {
-                color: red;
+                opacity: 1
             }
 
             50% {
-                color: yellow;
+                opacity: .6
             }
 
             100% {
-                color: red;
+                opacity: 1
             }
         }
 
-        .content {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            width: 80%;
-            max-width: 600px;
-            margin: 50px auto;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-            border: 2px solid red;
-            text-align: center;
+        .card {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.55));
+            border: 1px solid rgba(255, 0, 0, 0.12);
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.6);
+            width: min(760px, 94%);
+            text-align: center
         }
 
         .alert {
-            font-size: 30px;
-            color: red;
-            background-color: black;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            border: 2px solid red;
-            animation: blink 1.5s infinite;
-        }
-
-        .message {
-            font-size: 22px;
-            color: yellow;
-            line-height: 1.6;
-        }
-
-        button {
-            background-color: red;
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
             font-size: 20px;
-            transition: background-color 0.3s ease;
+            color: var(--yellow);
+            background: #000;
+            border: 1px solid rgba(255, 0, 0, 0.08);
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 12px
         }
 
-        button:hover {
-            background-color: darkred;
+        .desc {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 16px
+        }
+
+        .btn {
+            background: var(--red);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 8px 30px rgba(255, 0, 0, 0.08)
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #aaa;
+            margin-top: 8px
+        }
+
+        /* Fullscreen takeover overlay */
+        .takeover {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(20, 0, 0, 0.85), rgba(0, 0, 0, 0.95));
+            backdrop-filter: blur(2px);
+            display: none;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        /* Hacker face SVG container */
+        .face-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: .22;
+            filter: contrast(1.1) saturate(.9) blur(0.4px)
+        }
+
+        .face-wrap svg {
+            width: 70vmin;
+            max-width: 900px;
+            height: auto
+        }
+
+        /* Top bar */
+        .topbar {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            z-index: 50
+        }
+
+        .top-left {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.6)
+        }
+
+        .status {
+            font-size: 13px;
+            color: #f8f8f8;
+            opacity: .9
+        }
+
+        .timer {
+            font-family: monospace;
+            color: #ffb3b3
+        }
+
+        /* Scanner / files */
+        .scanner {
+            z-index: 60;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.55));
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            width: min(900px, 96%);
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            gap: 18px;
+            box-sizing: border-box;
+            color: #dcdcdc;
+            margin-top: 20px;
+            backdrop-filter: blur(2px)
+        }
+
+        .scan-left {
+            flex: 0 0 380px
+        }
+
+        .scan-right {
+            flex: 1;
+            min-width: 200px
+        }
+
+        .progress-wrap {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 12px;
+            border-radius: 10px
+        }
+
+        .progress-bar {
+            height: 18px;
+            background: linear-gradient(90deg, #222, #141414);
+            border-radius: 9px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 0, 0, 0.06)
+        }
+
+        .progress-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b6b, #ff2d2d);
+            transition: width 400ms linear
+        }
+
+        .files {
+            height: 220px;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 13px;
+            border: 1px dashed rgba(255, 255, 255, 0.03)
+        }
+
+        .file {
+            padding: 6px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02)
+        }
+
+        .file span {
+            color: #ffb3b3
+        }
+
+        /* Terminal */
+        .terminal {
+            background: #010101;
+            border-radius: 8px;
+            padding: 12px;
+            height: 280px;
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 13px;
+            color: #7aff7a
+        }
+
+        .term-line {
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-word
+        }
+
+        .glitch {
+            position: absolute;
+            inset: 0;
+            mix-blend-mode: screen;
+            opacity: 0.14;
+            pointer-events: none;
+            background: repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.02) 0 1px, transparent 1px 3px);
+            z-index: 40
+        }
+
+        /* modal */
+        .modal {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(.98);
+            background: linear-gradient(180deg, #0b0b0b, #050505);
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 0, 0.12);
+            z-index: 9999;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            width: min(420px, 94%);
+            display: none
+        }
+
+        .modal h3 {
+            margin: 0;
+            color: var(--red);
+            font-size: 20px
+        }
+
+        .modal p {
+            color: #ddd;
+            font-size: 14px
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        .input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
+            color: #fff
+        }
+
+        .small {
+            font-size: 13px;
+            color: #bbb;
+            margin-top: 8px
+        }
+
+        .modal .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #eee;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        .btn-danger {
+            background: var(--red);
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer
+        }
+
+        /* prank finish */
+        .prank-end {
+            position: fixed;
+            inset: 0;
+            display: none;
+            z-index: 130;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.95))
+        }
+
+        .prank-end h2 {
+            color: #ffd24d;
+            font-size: 34px;
+            margin: 0
+        }
+
+        .prank-end p {
+            color: #ddd;
+            margin: 8px 0 18px
+        }
+
+        /* small helpers */
+        .muted {
+            color: #9a9a9a;
+            font-size: 13px
+        }
+
+        .hidden {
+            display: none
+        }
+
+        @media (max-width:640px) {
+            h1 {
+                font-size: 34px
+            }
+
+            .scanner {
+                flex-direction: column
+            }
+
+            .scan-left {
+                flex-basis: auto
+            }
         }
 
         @keyframes blink {
-            0% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .scrolling-text {
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 24px;
-            color: red;
-            font-family: 'Courier New', Courier, monospace;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: scrollText 10s linear infinite;
-        }
-
-        @keyframes scrollText {
-            0% {
-                left: 100%;
-            }
-
-            100% {
-                left: -100%;
-            }
+           0% { opacity: 1 }
+           50% { opacity: .4 }
+           100% { opacity: 1 }
         }
     </style>
 </head>
 
 <body>
-    <h1>Critical System Error!</h1>
 
-    <div class="content">
-        <div class="alert">Your data has been compromised! Hack detected! please click button to hacked your data</div>
-        <p class="message">
-            WARNING: Personal information is currently being accessed. Unauthorized access confirmed!
-            We are taking control of your device.
-        </p>
-        <button onclick="startPrank()">Hack Your Data</button>
+    <!-- Landing -->
+    <div class="center">
+        <div class="card">
+            <h1>Critical System Error!</h1>
+            <div class="alert">Warning! Suspicious activity detected. You clicked an unsecured link. Immediate security
+                verification is required.</div>
+            <div class="desc">WARNING: Personal information is currently being accessed. Unauthorized access confirmed.
+                We are initiating emergency containment procedures.</div>
+            <button class="btn" id="btnStart">Secure Your Data</button>
+            <div class="hint muted">(Click the button to begin system verification — required to preserve data.)</div>
+        </div>
     </div>
 
-    <div class="scrolling-text">Warning! Your device is under attack! Data breach in progress! Please act fast!</div>
+    <!-- TAKEOVER OVERLAY -->
+    <div class="takeover" id="takeover">
+
+        <!-- hacker face SVG (stylized hooded silhouette) -->
+        <div class="face-wrap" aria-hidden="true">
+            <!-- Simple stylized hooded face SVG -->
+            <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                <defs>
+                    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                        <stop offset="0" stop-color="#0f0f0f" />
+                        <stop offset="1" stop-color="#0a0a0a" />
+                    </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="transparent" />
+                <!-- hood -->
+                <path
+                    d="M400 90 C300 90 230 180 210 280 C170 480 300 640 400 700 C500 640 630 480 590 280 C570 180 500 90 400 90 Z"
+                    fill="url(#g1)" />
+                <!-- face shadow -->
+                <ellipse cx="400" cy="380" rx="110" ry="140" fill="#020202" />
+                <!-- eyes -->
+                <ellipse cx="360" cy="360" rx="14" ry="7" fill="#e74c3c" />
+                <ellipse cx="440" cy="360" rx="14" ry="7" fill="#e74c3c" />
+                <!-- mask lines -->
+                <path d="M320 420 Q400 450 480 420" stroke="#2b2b2b" stroke-width="6" fill="none"
+                    stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <div class="topbar">
+            <div class="top-left">
+                <div class="dot"></div>
+                <div class="status">SYSTEM: Breach Detected</div>
+            </div>
+            <div class="timer" id="hackCountdown">00:00:00</div>
+        </div>
+
+        <div class="glitch"></div>
+
+        <!-- main scanner / terminal area -->
+        <div
+            style="z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;width:100%">
+            <div class="scanner" id="scanner">
+                <div class="scan-left">
+                    <div class="progress-wrap">
+                        <div style="font-size:13px;color:#ffbfbf">Encryption / exfiltration progress</div>
+                        <div class="progress-bar">
+                            <div class="progress-inner" id="prog"></div>
+                        </div>
+                        <div class="small muted" style="margin-top:8px">Files affected: <span id="fileCount">0</span>
+                        </div>
+                        <div class="files" id="filesBox"></div>
+                    </div>
+                </div>
+
+                <div class="scan-right">
+                    <div
+                        style="display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px">
+                        <div style="font-weight:700;color:#ff9b9b">Live Terminal</div>
+                        <div class="muted">Connection: <span id="conn">ESTABLISHED</span></div>
+                    </div>
+                    <div class="terminal" id="terminal"></div>
+                </div>
+            </div>
+
+            <!-- small controls (for demo) -->
+            <div style="display:flex;gap:10px;z-index:70">
+                <button class="btn-ghost" id="btnPause">Pause</button>
+                <button class="btn-ghost" id="btnSpeed">Speed x1</button>
+                <button class="btn-ghost" id="btnTopUp">Viewing</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top-Up Modal (fake) -->
+<!-- Top-Up Modal (fake) -->
+<div class="modal" id="topUpModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <h3 class="text-2xl font-bold text-center text-red-600 animate__animated animate__pulse">Starting to Reveal Password
+    </h3>
+    <p class="text-lg text-center text-gray-300">Don't cancel to continue "hacking" the account... it's almost done!</p>
+
+    <div class="bg-gray-900 rounded-lg p-4 mt-4">
+        <div class="text-center text-sm font-mono text-green-500">
+            <span class="text-lg">Initializing Hack...</span><br>
+            <span class="text-xs">Status: Running diagnostics...</span><br>
+            <span class="text-xs">Progress: 99% complete</span>
+        </div>
+    </div>
+
+    <div class="actions mt-6 flex justify-center gap-4">
+        <button class="btn-ghost py-2 px-6 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-600"
+            id="cancelTopUp">Cancel</button>
+        <button class="btn-danger py-2 px-6 bg-red-500 text-white rounded-lg shadow hover:bg-red-400" id="doTopUp">Click
+            Now</button>
+    </div>
+</div>
+
+
+    <!-- Prank End Modal -->
+    <div class="prank-end" id="prankEnd">
+        <h2>IT'S JUST A PRANK 😈</h2>
+        <p>No data was accessed. This was a harmless demonstration. Chill and laugh it off 😊</p>
+        <button class="btn" id="btnCloseEnd">Close</button>
+    </div>
+
+    <!-- audio elements (play on user interaction) -->
+    <audio id="audioAmbient" loop preload="auto">
+        <source src="https://soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <!-- If you want, replace the src with your preferred short creepy ambient sound -->
+    </audio>
+    <audio id="audioJumps" preload="auto">
+        <source src="sounds/digital_watch_alarm_long.ogg" type="audio/ogg">
+    </audio>
 
     <script>
-        // Create audio objects for sound effects
-        var creepySound = new Audio('https://www.soundjay.com/creepy-sound.mp3');  // Creepy sound URL
-        creepySound.loop = true;  // Loop the creepy sound effect
+        window.onload = () => {
+        /* ========== Data & helpers ========== */
+         
+        const btnStart = document.getElementById('btnStart');
+        const takeover = document.getElementById('takeover');
+        const terminal = document.getElementById('terminal');
+        const prog = document.getElementById('prog');
+        const filesBox = document.getElementById('filesBox');
+        const fileCount = document.getElementById('fileCount');
+        const audioAmbient = document.getElementById('audioAmbient');
+        const audioJumps = document.getElementById('audioJumps');
+        const topUpModal = document.getElementById('topUpModal');
+        const btnTopUp = document.getElementById('btnTopUp');
+        const cancelTopUp = document.getElementById('cancelTopUp');
+        const doTopUp = document.getElementById('doTopUp');
+        const prankEnd = document.getElementById('prankEnd');
+        const btnCloseEnd = document.getElementById('btnCloseEnd');
+        const hackCountdown = document.getElementById('hackCountdown');
+        const btnPause = document.getElementById('btnPause');
+        const btnSpeed = document.getElementById('btnSpeed');
 
-        function startPrank() {
-            // Play the creepy sound when the button is clicked
-            creepySound.play();
+        let progress = 0;
+        let fileCounter = 0;
+        let speed = 1;
+        let running = true;
+        let terminalLines = [
+            "Connecting to remote host...",
+            "Handshake complete. Establishing tunnel...",
+            "Bypassing firewall rules...",
+            "Escalating privileges...",
+            "Mapping connected devices...",
+            "Enumerating user directories...",
+            "Extracting sensitive files...",
+            "Encrypting user backups...",
+            "Packaging exfiltration bundle...",
+            "Uploading to remote server 192.0.2.123..."
+        ];
+        let fileNames = [
+            "configuring/vacation/img_001.jpg",
+            "password/taxes/2024_return.pdf",
+            "password crack/conversation_backup_2025.db",
+            "revealing/addresses.txt",
+            "notes/secret_plans.txt",
+            "injected/client_proposal.docx",
+            "settings/profile_photo.png",
+            "downloads/setup.exe",
+            "archives/site_backup.zip",
+            "configs/ssh_keys"
+        ];
 
-            // Show the prank message and redirect after some time
-            setTimeout(function () {
-                alert("Just kidding! Your data is safe. It's all a prank.");
-                window.location.href = "https://www.google.com"; // Redirect to Google after prank message
-            }, 1500); // Delay before showing the alert
+        
+        /* Add lines to terminal one by one */
+        function pushTerminal(text, delay = 0) {
+            setTimeout(() => {
+                const el = document.createElement('div');
+                el.className = 'term-line';
+                el.textContent = text;
+                terminal.appendChild(el);
+                terminal.scrollTop = terminal.scrollHeight;
+            }, delay);
         }
+
+        /* update fake files list */
+        function pushFile(fn) {
+            const el = document.createElement('div');
+            el.className = 'file';
+            el.innerHTML = `<span>&#9679;</span> ${fn}`;
+            filesBox.prepend(el);
+            // limit
+            while (filesBox.children.length > 40) filesBox.removeChild(filesBox.lastChild);
+            fileCount.textContent = ++fileCounter;
+        }
+
+        /* fake countdown timer display */
+        let startTime = Date.now();
+        function updateTimer() {
+            const diff = Math.max(0, Math.floor((Date.now() - startTime) / 1000));
+            const h = String(Math.floor(diff / 3600)).padStart(2, '0');
+            const m = String(Math.floor(diff % 3600 / 60)).padStart(2, '0');
+            const s = String(diff % 60).padStart(2, '0');
+            hackCountdown.textContent = `${h}:${m}:${s}`;
+        }
+
+        /* main loop: increase progress, add files & terminal lines */
+        let mainInterval;
+        function startMainLoop() {
+            mainInterval = setInterval(() => {
+                if (!running) return;
+                // increase progress
+                progress = Math.min(100, progress + (0.3 * speed + Math.random() * 0.8 * speed));
+                prog.style.width = progress + '%';
+
+                // every progress step maybe add file
+                if (Math.random() < 0.6 * speed) {
+                    pushFile(fileNames[Math.floor(Math.random() * fileNames.length)]);
+                }
+
+                // push terminal lines occasionally
+                if (Math.random() < 0.8 * speed) {
+                    pushTerminal(terminalLines[Math.floor(Math.random() * terminalLines.length)]);
+                }
+
+                // glitch visual flicker
+                document.body.style.background = (Math.random() < 0.02 * speed) ? 'linear-gradient(180deg,#200000 0%, #0b0000 100%)' : 'linear-gradient(180deg,#050506 0%, #0b0b0b 100%)';
+
+                // if reached 100 -> show final behavior (but we will not actually harm)
+                if (progress >= 100) {
+                    clearInterval(mainInterval);
+                    setTimeout(() => { showTopUpModal(); }, 700);
+                }
+                updateTimer();
+            }, 400 / speed);
+        }
+
+        /* Start takeover on button click */
+        btnStart.addEventListener('click', async () => {
+            // show takeover overlay
+            takeover.style.display = 'flex';
+            // start ambient audio (must be user interaction)
+            try { audioAmbient.volume = 0.28; await audioAmbient.play(); } catch (e) { }
+            // start terminal and progress
+            startTime = Date.now();
+            running = true;
+            progress = 0; fileCounter = 0; filesBox.innerHTML = ''; terminal.innerHTML = '';
+            startMainLoop();
+
+            // quick initial terminal messages
+            pushTerminal("!! ALERT: Unauthorized access detected !!", 100);
+            pushTerminal("Spawning containment / exfiltration routine...", 600);
+            pushTerminal("Opening secure tunnel to remote host...", 1200);
+            pushTerminal("Starting file enumeration...", 1800);
+
+            // occasionally show new lines
+            setTimeout(() => { pushTerminal("Scanning user directories..."); }, 2600);
+            setTimeout(() => { pushTerminal("Locking non-critical UI..."); }, 3600);
+
+            // show hacker face slowly
+            document.querySelector('.face-wrap').style.transition = 'opacity 2s';
+            document.querySelector('.face-wrap').style.opacity = 0.36;
+        });
+
+        /* Pause and speed controls (for demo) */
+        btnPause.addEventListener('click', () => {
+            running = !running;
+            btnPause.textContent = running ? 'Pause' : 'Resume';
+        });
+        btnSpeed.addEventListener('click', () => {
+            if (speed === 1) { speed = 3; btnSpeed.textContent = 'Speed x3'; }
+            else { speed = 1; btnSpeed.textContent = 'Speed x1'; }
+            clearInterval(mainInterval); startMainLoop();
+        });
+
+        /* Top-up modal triggers */
+        function showTopUpModal() {
+            topUpModal.style.display = 'block';
+            topUpModal.setAttribute('aria-hidden', 'false');
+        }
+
+        btnTopUp.addEventListener('click', () => {
+            console.log('Trigger Top-Up Modal button clicked'); // Debug log
+            topUpModal.style.display = 'block';
+            topUpModal.setAttribute('aria-hidden', 'false');
+        });
+        cancelTopUp.addEventListener('click', () => {
+            topUpModal.style.display = 'none';
+        });
+
+        doTopUp.addEventListener('click', async () => {
+            // simulate payment processing
+            topUpModal.querySelector('p').textContent = "Processing payment... Do not close.";
+            doTopUp.disabled = true;
+            try {
+                audioJumps.volume = 0.8;
+                await audioJumps.play();
+            } catch (e) {
+                console.error('Audio playback failed:', e);
+            }
+
+            // fake progress on modal
+            let v = 0;
+            const intr = setInterval(() => {
+                v += 10;
+                topUpModal.querySelector('.small')?.remove();
+                topUpModal.querySelector('.row').innerHTML = `<div style="height:10px;background:#111;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)"><div style="height:100%;width:${v}%;background:linear-gradient(90deg,#ff6b6b,#ff2d2d)"></div></div>`;
+                if (v >= 100) {
+                    clearInterval(intr);
+                    setTimeout(() => { endPrank(); }, 800);
+                }
+            }, 420);
+        });
+
+        /* End prank: stop sounds and show final message */
+        function endPrank() {
+            try {
+                audioAmbient.pause();
+                audioAmbient.currentTime = 0;
+                audioJumps.pause();
+                audioJumps.currentTime = 0;
+            } catch (e) {
+                console.error('Error stopping audio:', e);
+            }
+
+            topUpModal.style.display = 'none';
+            takeover.style.display = 'none';
+            prankEnd.style.display = 'flex';
+            prankEnd.style.zIndex = 140; // Ensure it appears above other elements
+        }
+
+        /* close prank end */
+        btnCloseEnd.addEventListener('click', () => {
+            prankEnd.style.display = 'none';
+            // return to landing page (nothing changed)
+        });
+
+        /* keyboard escape to close (for testing) */
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (prankEnd.style.display === 'flex') prankEnd.style.display = 'none'; } });
+        };
     </script>
 </body>
 
