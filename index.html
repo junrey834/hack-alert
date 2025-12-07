@@ -382,7 +382,7 @@
             display: none
         }
 
-        @media (max-width:640px) {
+        @media (max-width:480px) {
             h1 {
                 font-size: 34px
             }
@@ -393,6 +393,79 @@
 
             .scan-left {
                 flex-basis: auto
+            }
+
+              .center {
+                padding: 16px;
+            }
+
+            .card {
+                width: 100%;
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .alert {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .desc {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            .scanner {
+                flex-direction: column;
+                margin-top: 20px;
+                gap: 10px;
+            }
+
+            .topbar {
+                font-size: 10px;
+                padding: 6px;
+            }
+
+            .timer {
+                font-size: 12px;
+            }
+
+            .files {
+                font-size: 10px;
+            }
+
+            .terminal {
+                font-size: 12px;
+            }
+
+            .file {
+                font-size: 12px;
+            }
+
+            .modal h3 {
+                font-size: 16px;
+            }
+
+            .modal p {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .prank-end h2 {
+                font-size: 20px;
+            }
+
+            .prank-end p {
+                font-size: 12px;
+            }
+
+            /* Adjust the glitch effect further */
+            .glitch {
+                opacity: 0.08;
             }
         }
 
@@ -703,7 +776,7 @@
 
         doTopUp.addEventListener('click', async () => {
             // simulate payment processing
-            topUpModal.querySelector('p').textContent = "Processing payment... Do not close.";
+            topUpModal.querySelector('p').textContent = "Processing hacking... Do not close.";
             doTopUp.disabled = true;
             try {
                 audioJumps.volume = 0.8;
